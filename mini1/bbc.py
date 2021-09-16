@@ -5,6 +5,7 @@ import glob
 import matplotlib.pyplot as plt
 from collections import defaultdict
 from typing import Dict, List
+from sklearn.feature_extraction.text import CountVectorizer
 
 Dataset = Dict[str, List[str]]
 
@@ -41,6 +42,26 @@ def plot_distribution(dataset: Dataset, result_path: str):
 
     plt.savefig(os.path.join(result_path, "./BBC-distribution.pdf"))
 
+def get_vectorizer(dataset: Dataset) -> CountVectorizer:
+    corpus = []
+
+    for data in dataset.values():
+        corpus += data
+
+    vectorizer = CountVectorizer(stop_words='english')
+    vectorizer.fit_transform(corpus)
+
+    return vectorizer
+
+def parse_dataset(dataset: Dataset, vectorizer: CountVectorizer):
+    parsed_dataset = []
+
+    for label, texts in dataset.items():
+        for text in texts:
+            parsed_dataset.append((label, vectorizer.transform([text])))
+
+    return parsed_dataset
+
 def bbc_main():
     data_path="./data"
 
@@ -63,3 +84,12 @@ def bbc_main():
         dataset=dataset,
         result_path=result_path
     )
+
+    vectorizer = get_vectorizer(dataset)
+
+    parsed_dataset = parse_dataset(
+        dataset=dataset,
+        vectorizer=vectorizer
+    )
+
+    print(parsed_dataset[:2])
