@@ -10,5 +10,9 @@ class Log:
     def label(self, label: str, line: str):
         self.add(label + "\n\n" + str(line) + "\n")
 
+    def save(self, path: str):
+        with open(path, "w") as h:
+            h.write(str(self))
+
     def __str__(self) -> str:
-        return self.__log
+        return self.__log.strip()
