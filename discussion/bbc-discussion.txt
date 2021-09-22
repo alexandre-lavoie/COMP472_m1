@@ -4,4 +4,4 @@ Given there is a bias, we probably want to avoid relying on precision and F1-sco
 Accuracy and recall are better metrics of performance for the classifier.
 
 (b) For step 8, the performance is identical because Naive Bayes classifier training is not based on randomness (unlike a Neural Network model).
-For step 9 and 10, the performance is different (though very minimally) because the alpha hyperparameter tweaks the model.
+For step 9 and 10, the performance is different (though very minimally) because the smoothing values tweaks the probability model (when values are not seen). 
