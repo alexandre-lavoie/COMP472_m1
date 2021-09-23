@@ -6,14 +6,13 @@ import json
 import matplotlib.pyplot as plt
 import numpy as np
 import math
-from .utils import Log
+from .utils import Log, plot_distribution, add_test_log
 from collections import defaultdict
 from typing import Dict, List, Tuple
 from scipy.sparse import csr_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.metrics import confusion_matrix, accuracy_score, classification_report
 
 Dataset = Dict[str, List[str]]
 
@@ -38,18 +37,6 @@ def load_dataset(data_path: str) -> Dataset:
 
     return dataset
 
-def plot_distribution(class_counts: dict, result_path: str):
-    dataset_labels = list(class_counts.keys())
-    dataset_counts = list(class_counts.values())
-
-    plt.title("BBC Distribution")
-    plt.xlabel("Label")
-    plt.ylabel("Count")
-
-    plt.bar(dataset_labels, dataset_counts)
-
-    plt.savefig(os.path.join(result_path, "./bbc-distribution.pdf"))
-
 def get_vectorizer(dataset: Dataset) -> CountVectorizer:
     corpus = []
 
@@ -73,21 +60,6 @@ def parse_dataset(dataset: Dataset, vectorizer: CountVectorizer) -> Tuple[csr_ma
     x_dataset = vectorizer.transform(lines)
 
     return x_dataset, y_dataset
-
-def add_test_log(log: Log, classifier: MultinomialNB, x_test: any, y_test: any):
-    y_test_predict = classifier.predict(x_test)
-
-    test_confusion_matrix = confusion_matrix(y_test, y_test_predict)
-
-    log.label("(b)", test_confusion_matrix)
-
-    test_classification_report = classification_report(y_test, y_test_predict)
-
-    log.label("(c)", test_classification_report)
-
-    test_accuracy_score = accuracy_score(y_test, y_test_predict)
-
-    log.label("(d)", test_accuracy_score)
 
 def add_stats_log(log: Log, classifier: MultinomialNB, dataset: dict, vectorizer: CountVectorizer, favorite_words: List[str], x_dataset: csr_matrix, y_dataset: List[str]):
     prior_probabilities = dict(zip(dataset.keys(), (math.exp(lp) for lp in classifier.class_log_prior_)))
@@ -172,15 +144,7 @@ def perform_test(log: Log, title: str, vectorizer: CountVectorizer, x_train, x_t
         favorite_words=favorite_words,
     )
 
-def bbc_main():
-    data_path="./data"
-
-    if not os.path.exists(data_path): os.makedirs(data_path, exist_ok=True)
-    
-    result_path="./results"
-    
-    if not os.path.exists(result_path): os.makedirs(result_path, exist_ok=True)
-
+def bbc_main(data_path: str, result_path: str):
     extract_dataset(
         zip_path="./datasets/BBC-20210914T194535Z-001.zip",
         data_path=data_path
@@ -193,6 +157,7 @@ def bbc_main():
     class_counts = dict([(l, len(vs)) for l, vs in dataset.items()])
 
     plot_distribution(
+        label="BBC",
         class_counts=class_counts,
         result_path=result_path
     )
