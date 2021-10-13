@@ -99,7 +99,7 @@ def add_stats_log(log: Log, classifier: MultinomialNB, dataset: dict, vectorizer
 
     zero_corpus_text = f"{zero_totals_corpus} / {totals_corpus} ({(zero_totals_corpus / totals_corpus) * 100}%)"
 
-    log.label("(h)", zero_corpus_text)
+    log.label("(j)", zero_corpus_text)
 
     favorite_word_indices = vectorizer.transform(favorite_words).nonzero()[1]
     
@@ -114,7 +114,7 @@ def add_stats_log(log: Log, classifier: MultinomialNB, dataset: dict, vectorizer
 
         probs_text += json.dumps(label_probs, indent=4) + "\n\n"
 
-    log.label("(i)", probs_text.strip())
+    log.label("(k)", probs_text.strip())
 
 def build_classifier(x_train, y_train, smoothing: float = 1.0) -> MultinomialNB:
     classifier = MultinomialNB(alpha=smoothing)
@@ -171,12 +171,11 @@ def bbc_main(data_path: str, result_path: str):
 
     x_train, x_test, y_train, y_test = train_test_split(x_dataset, y_dataset, train_size=0.8)
 
-    classifier = build_classifier(x_train, y_train)
-    print(classifier.predict(vectorizer.transform(["TimeWarner"])))
-
     log = Log()
 
     for title, smoothing in [("Default, Try 1", 1.0), ("Default, Try 2", 1.0), ("Smoothing 0.0001", 0.0001), ("Smoothing 0.9", 0.9)]:
+        print(title)
+
         perform_test(
             title="*" * 10 + " MultinomialNB, " + title + " " + "*" * 10,
             favorite_words=["Google", "French"],
@@ -193,3 +192,5 @@ def bbc_main(data_path: str, result_path: str):
         )
 
     log.save(os.path.join(result_path, "./bbc-performance.txt"))
+
+    print("\nDone!")

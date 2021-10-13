@@ -1,0 +1,9 @@
+The Naive Bayes and Decision Tree are based on probability. 
+This makes the model fully predictable and consistent. 
+Therefore, if the training data remains persistent, model should fit to the same result no matter the number of retrain.
+This is reflected in the statistics results, where the is no standard deviation for these results.
+
+The Perceptron models are based on randomness and iterations.
+A random weight input may not converge to the same minima.
+This means that the larger the model is, the more likely it is to converge towards a different minima.
+This is reflected in the statistics results, where the Perceptron has little fluxuation in results while the multilayered one has alot more changes.

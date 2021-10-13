@@ -47,3 +47,11 @@ def add_test_log(log: Log, classifier: any, x_test: any, y_test: any):
     test_accuracy_score = accuracy_score(y_test, y_test_predict)
 
     log.label("(d)", test_accuracy_score)
+
+    return y_test_predict
+
+def get_classifier_name(classifier: any) -> str:
+    if hasattr(classifier, 'estimator'):
+        return "GridSearchCV(" + str(classifier.estimator).split("(")[0] + ")"
+    else:
+        return str(classifier).split("(")[0]

@@ -24,3 +24,5 @@ Using the setup venv, you can run the provided `py` files:
 source ./.venv/bin/activate...
 python3 main.py TASK
 ```
+
+Where TASK is either `bbc` or `drug`.

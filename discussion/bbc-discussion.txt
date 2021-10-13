@@ -1,7 +1,7 @@
 (a) We observe that there is a slight bias for business and sport. 
 We are dealing with a classification problem, we know the standard metrics are: accuracy, precision, recall, and F1-score.
-Given there is a bias, we probably want to avoid relying on precision and F1-score because it is more likely, just by nature of the dataset, to select business or sportx.
+Given there is a bias, we probably want to avoid relying on precision and F1-score because it is more likely, just by nature of the dataset, to select business or sports.
 Accuracy and recall are better metrics of performance for the classifier.
 
 (b) For step 8, the performance is identical because Naive Bayes classifier training is not based on randomness (unlike a Neural Network model).
-For step 9 and 10, the performance is different (though very minimally) because the smoothing values tweaks the probability model (when values are not seen). 
+For step 9 and 10, the performance is different (though very minimally) because the smoothing values tweaks the probability model (when values are not present. 
