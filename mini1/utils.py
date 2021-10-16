@@ -32,6 +32,7 @@ def plot_distribution(class_counts: dict, result_path: str, label: str):
     plt.bar(dataset_labels, dataset_counts)
 
     plt.savefig(os.path.join(result_path, f"./{label.lower()}-distribution.pdf"))
+    plt.savefig(os.path.join(result_path, f"./{label.lower()}-distribution.png"))
 
 def add_test_log(log: Log, classifier: any, x_test: any, y_test: any):
     y_test_predict = classifier.predict(x_test)

@@ -64,7 +64,7 @@ def drug_main(data_path: str, result_path: str):
             classifier.fit(x_train, y_train)
 
             title = "*" * 10
-            title + " " + get_classifier_name(classifier)
+            title += " " + get_classifier_name(classifier)
 
             if hasattr(classifier, 'best_params_'):
                 title += ", " + str(classifier.best_params_)

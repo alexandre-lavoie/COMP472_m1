@@ -84,7 +84,7 @@ def add_stats_log(log: Log, classifier: MultinomialNB, dataset: dict, vectorizer
     zero_counts = defaultdict(int)
     total_counts = defaultdict(int)
     for i, label in enumerate(y_dataset):
-        zero_count = vocabulary - len(x_dataset[i,:].nonzero()[0])
+        zero_count = vocabulary - x_dataset[i,:].count_nonzero()
 
         zero_counts[label] += zero_count
         total_counts[label] += vocabulary
@@ -94,10 +94,14 @@ def add_stats_log(log: Log, classifier: MultinomialNB, dataset: dict, vectorizer
 
     log.label("(i)", zero_totals_text)
 
-    zero_totals_corpus = sum(v1 for (v1, v2) in zero_totals.values())
-    totals_corpus =  sum(v2 for (v1, v2) in zero_totals.values())
+    one_total_corpus = 0
+    for i, j in zip(*x_dataset.nonzero()):
+        if x_dataset[i,j] == 1:
+            one_total_corpus += 1
 
-    zero_corpus_text = f"{zero_totals_corpus} / {totals_corpus} ({(zero_totals_corpus / totals_corpus) * 100}%)"
+    totals_corpus = sum(tc for tc in total_counts.values())
+
+    zero_corpus_text = f"{one_total_corpus} / {totals_corpus} ({(one_total_corpus / totals_corpus) * 100}%)"
 
     log.label("(j)", zero_corpus_text)
 
