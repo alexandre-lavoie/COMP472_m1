@@ -26,3 +26,7 @@ python3 main.py TASK
 ```
 
 Where TASK is either `bbc` or `drug`.
+
+## Results
+
+Results for the tasks can be found in `/results`. Discussion and presentation can be found in `/discussion`.
