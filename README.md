@@ -2,7 +2,7 @@
 
 https://github.com/alexandre-lavoie/COMP472_m1
 
-## Team
+## Team - JustAlex
 
 - Alexandre Lavoie (40129457)
 
